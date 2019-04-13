@@ -19,9 +19,10 @@ export default class ExpressServer {
         app.use(bodyParser.urlencoded({extended: true, limit: process.env.REQUEST_LIMIT || '100kb'}));
         app.use(cookieParser(process.env.SESSION_SECRET));
         app.use(express.static(`${root}/public`));
+        ExpressServer.connectMongoose();
     }
 
-    connectMongoose(): void {
+    private static connectMongoose(): void {
         mongoose
             .connect(
                 'mongodb://mongo-module-container:27017/backend-module-container',

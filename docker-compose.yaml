@@ -10,10 +10,15 @@ services:
       - mongo-module-container
     env_file:
       - ./backend-module/.env
+    volumes:
+      - ./backend-module:/app
   mongo-module-container:
     container_name: mongo-module-container
     image: mongo:4.0.4
     ports:
-      - '27016:27016'
+      - '27017:27017'
     volumes:
-      - ./db-volume:/data/db
+      - db-volume:/data/db
+
+volumes:
+  db-volume:
