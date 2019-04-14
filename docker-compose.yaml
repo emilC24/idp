@@ -5,13 +5,14 @@ services:
     restart: always
     build: ./backend-module
     ports:
-      - '9001:3000'
+      - '9001:9001'
     links:
       - mongo-module-container
     env_file:
       - ./backend-module/.env
     volumes:
       - ./backend-module:/app
+
   mongo-module-container:
     container_name: mongo-module-container
     image: mongo:4.0.4
@@ -19,6 +20,17 @@ services:
       - '27017:27017'
     volumes:
       - db-volume:/data/db
+
+  frontend-module-container:
+    container_name: frontend-module-container
+    restart: always
+    build: ./frontend-module
+    ports:
+      - '9000:3000'
+    links:
+      - backend-module-container
+    volumes:
+      - ./frontend-module:/app-frontend
 
 volumes:
   db-volume:
