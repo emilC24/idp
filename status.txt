@@ -1,0 +1,12 @@
+14 aprilie
+
+nu merge nodemon-ul pe docker. Volumes merg(daca schimb index.html, se schimba
+si in imagine). Totusi, desi nodemon merge pe local, nu merge pe docker.
+
+Dupa ce rezolv cu nodemon:
+1) verific consistenta pe baza de date din docker - inchis / deschis container
+etc.
+2) arhitectura pt backend - cat mai simplu - doar pt un demo penal
+3) arhitectura pt frontend -  cred ca e de ajuns un react table cu search si
+filtre
+4) frontend - interfata generica pt requesturi - cat mai simplu de facut

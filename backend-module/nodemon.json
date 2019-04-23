@@ -4,5 +4,5 @@
   },
   "ignore": ["test/**/*.ts", "test/**/*.spec.ts", ".git", "node_modules"],
   "watch": ["server"],
-  "ext": "ts,js,json,yaml,yml"
+  "ext": "ts,js,json,yaml,yml,html"
 }
