@@ -19,11 +19,10 @@ export default class ExpressServer {
         app.use(bodyParser.urlencoded({extended: true, limit: process.env.REQUEST_LIMIT || '100kb'}));
         app.use(cookieParser(process.env.SESSION_SECRET));
         app.use(express.static(`${root}/public`));
-        ExpressServer.connectMongoose();
     }
 
-    private static connectMongoose(): void {
-        mongoose
+    static async connectMongoose() {
+        await mongoose
             .connect(
                 'mongodb://mongo-module-container:27017/backend-module-container',
                 {useNewUrlParser: true}
@@ -33,11 +32,13 @@ export default class ExpressServer {
     }
 
     router(routes: (app: Application) => void): ExpressServer {
+        console.log('router')
         swaggerify(app, routes);
         return this;
     }
 
     listen(p: string | number = process.env.PORT): Application {
+        console.log('listen')
         const welcome = port => () => l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname() } on port: ${port}}`);
         http.createServer(app).listen(p, welcome(p));
         return app;

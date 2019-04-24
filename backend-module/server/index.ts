@@ -1,8 +1,15 @@
 import './common/env';
-import Server from './common/server';
+import Server, {default as ExpressServer} from './common/server';
 import routes from './routes';
 
 const port = parseInt(process.env.PORT);
-export default new Server()
-  .router(routes)
-  .listen(port);
+const server = new Server();
+let app;
+
+ExpressServer.connectMongoose().then(() => {
+    app = server
+        .router(routes)
+        .listen(port)
+});
+
+export default app;
