@@ -3,8 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-    private apiBasePath = 'http://localhost:9001/api/v1/';
-    private getExamplePath = 'examples';
+    private apiBasePath = 'http://localhost:9001/';
+    private getExamplePath = 'clothes';
     private initRequest = (methodType: string) => ({
         credentials: "include" as RequestCredentials,
         headers: new Headers(),

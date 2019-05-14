@@ -26,6 +26,7 @@ const ClothSchema = new Schema({
         required: true
     },
     price: Number,
+    count: Number,
 });
 
 export const Cloth = mongoose.model('cloth', ClothSchema);
