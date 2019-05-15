@@ -40,10 +40,6 @@ export class clothController {
                     .json({...existing, count: existing.count + newOne.count});
             });
             console.log("after update")
-
-            // res.status(201)
-            //     .location(`<%= apiRoot %>/clothes/`)
-            //     .json(newOne)
         } else {
             Cloth.create(cloth, (err, cloth) => {
                 console.log(err)

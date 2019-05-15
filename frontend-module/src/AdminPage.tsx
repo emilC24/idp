@@ -2,8 +2,14 @@ import * as React from "react";
 import {Cloth, ClothType, Size} from "./models/Cloth";
 import {clothesPath, Requests} from "./Requests";
 import {CSSProperties} from "react";
+import {Redirect} from "react-router";
 
-export class AdminPage extends React.Component<{}, { clothType: ClothType, size: Size, price: number, count: number }> {
+interface AdminPageProps {
+    clothType: ClothType, size: Size, price: number, count: number,
+    redirect: boolean,
+}
+
+export class AdminPage extends React.Component<{}, AdminPageProps> {
     private requests: Requests;
 
     constructor(props: any) {
@@ -24,6 +30,23 @@ export class AdminPage extends React.Component<{}, { clothType: ClothType, size:
         });
     }
 
+    private redirectButtonStyling = {
+        borderRadius: "10px",
+        color: "white",
+        backgroundColor: "blue",
+        cursor: "pointer",
+        float: "right",
+        margin: "10px"
+    } as CSSProperties;
+
+    private buttonStyling = {
+        borderRadius: "100px",
+        color: "white",
+        backgroundColor: "green",
+        cursor: "pointer",
+        margin: "15px"
+    };
+
     private clothTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({...this.state, clothType: event.target.value as ClothType})
     };
@@ -42,12 +65,24 @@ export class AdminPage extends React.Component<{}, { clothType: ClothType, size:
 
     private submitClick = () => {
         this.requests.postRequest(clothesPath, JSON.stringify({cloth: this.state}))
+        alert("Items added!");
     };
+
+    private redirectButtonHandler = () => {
+        this.setState({...this.state, redirect: true});
+    };
+
+    private renderRedirect() {
+        if (this.state.redirect === true) {
+            return <Redirect to={'/'}/>
+        }
+    }
 
     public render() {
         return <div>
-
-            <h1> Add cloth </h1>
+            {this.renderRedirect()}
+            <button style={this.redirectButtonStyling}  onClick={this.redirectButtonHandler}> Go to store </button>
+            <h1 style={{margin: "15px"}}> Add cloth </h1>
             <label style={{'margin': '15px'} as React.CSSProperties}>
                 Cloth Type:
                 <select value={this.state.clothType} onChange={this.clothTypeChange} style={{'marginLeft': '5px'} as CSSProperties}>
@@ -91,7 +126,7 @@ export class AdminPage extends React.Component<{}, { clothType: ClothType, size:
             <div style={{'margin': '15px'} as React.CSSProperties}>
                 Count: <input type="text" name="count" onChange={this.countChange}/>
             </div>
-            <button onClick={this.submitClick} style={{'margin': '15px'} as React.CSSProperties}> Submit </button>
+            <button onClick={this.submitClick} style={this.buttonStyling as React.CSSProperties}> Submit </button>
         </div>
 
     }

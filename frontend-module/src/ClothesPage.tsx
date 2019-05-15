@@ -3,8 +3,15 @@ import {clothesPath, Requests} from "./Requests";
 import {Cloth, Size} from "./models/Cloth";
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
+import {Redirect} from "react-router";
+import {CSSProperties} from "react";
 
-export class ClothesPage extends React.Component<{}, { clothes: Cloth[] }> {
+interface ClothPageProps {
+    clothes: Cloth[],
+    redirect: boolean,
+}
+
+export class ClothesPage extends React.Component<{}, ClothPageProps> {
     private requests: Requests;
     private buyOnePath: string;
 
@@ -12,7 +19,8 @@ export class ClothesPage extends React.Component<{}, { clothes: Cloth[] }> {
         super(props);
         this.requests = new Requests(props);
         this.state = {
-            clothes: []
+            clothes: [],
+            redirect: false,
         };
         this.buyOnePath = clothesPath + '/buyOne'
     }
@@ -31,6 +39,15 @@ export class ClothesPage extends React.Component<{}, { clothes: Cloth[] }> {
         backgroundColor: "green",
         cursor: "pointer"
     };
+
+    private redirectButtonStyling = {
+        borderRadius: "10px",
+        color: "white",
+        backgroundColor: "blue",
+        cursor: "pointer",
+        float: "right",
+        margin: "10px"
+    } as CSSProperties;
 
     private buttonHandler = (cloth: Cloth) => (event: React.MouseEvent<HTMLButtonElement>) => {
         if (cloth.count <= 0) {
@@ -67,16 +84,33 @@ export class ClothesPage extends React.Component<{}, { clothes: Cloth[] }> {
                 id: "count"
             }, {
                 Cell: (row: any) => <button style={this.buttonStyling} onClick={this.buttonHandler(row.original)}>Buy</button>,
-                Header: "Buy",
+                Header: "Actions",
                 id: "buy"
             }]
+    }
+    private redirectButtonHandler = () => {
+        this.setState({...this.state, redirect: true});
+    };
+
+    private renderRedirect() {
+        if (this.state.redirect === true) {
+            return <Redirect to={'/adminpage'}/>
+        }
     }
 
     public render() {
         return <div>
-            <h1 style={{color: "red"}}>
-                Clothes Page
+            {this.renderRedirect()}
+            <br></br>
+
+            <button style={this.redirectButtonStyling}  onClick={this.redirectButtonHandler}> Go to admin page </button>
+
+            <h1 style={{color: "red", display: "inline", margin: "10px", marginBottom: "100px"}}>
+                Clothes Store
             </h1>
+            <br></br>
+            <br></br>
+
             <ReactTable columns={this.getColumns()}
                         data={this.state.clothes}
                         defaultPageSize={10}
