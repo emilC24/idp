@@ -3,4 +3,5 @@ import clothController from "./clothController";
 
 export default express.Router()
     .get('/', clothController.all)
-    .post('/', clothController.create);
+    .post('/', clothController.create)
+    .post('/buyOne', clothController.decrementCount);

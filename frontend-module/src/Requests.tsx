@@ -44,4 +44,8 @@ export class Requests extends Component {
     public postRequest(path: string, body: any) {
         return this.doRequest(path, "POST", body);
     }
+
+    // public deleteRequest(path: string, body: any) {
+    //     return this.doRequest(path, "DELETE", body);
+    // }
 }

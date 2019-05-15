@@ -29,4 +29,6 @@ const ClothSchema = new Schema({
     count: Number,
 });
 
+export const clothFields = ['type', 'size', 'price', 'count'];
+
 export const Cloth = mongoose.model('cloth', ClothSchema);
